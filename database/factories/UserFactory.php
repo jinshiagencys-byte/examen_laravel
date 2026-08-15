@@ -29,6 +29,7 @@ class UserFactory extends Factory
             'password' => Hash::make('admin123'),
             'role' => 'administrateur',
             'statut' => 'active',
+            'password_set' => true,
         ]);
     }
 
