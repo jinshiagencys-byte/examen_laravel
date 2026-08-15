@@ -47,7 +47,7 @@ Route::get('/signage', function (Request $request) {
         })->orderBy('start_date_time', 'asc')->get();
 });
 
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware(['auth:sanctum', 'active'])->group(function () {
     Route::get('/assets', [AssetController::class, 'getAll']);
     Route::get('/users', [UserController::class, 'getAll']);
     Route::get('/distributionGroups', [DistributionGroupController::class, 'getAll']);

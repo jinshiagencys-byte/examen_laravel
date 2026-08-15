@@ -9,8 +9,8 @@
                         <x-table.heading direction="null">
                             <x-input.checkbox wire:model="selectPage" />
                         </x-table.heading>
-                        <x-table.heading sortable wire:click="sortBy('name')" :direction="$sorts['name'] ?? null" class="col-2">Name</x-table.heading>
-                        <x-table.heading class="col-2">Users</x-table.heading>
+                        <x-table.heading sortable wire:click="sortBy('name')" :direction="$sorts['name'] ?? null" class="col-2">Nom</x-table.heading>
+                        <x-table.heading class="col-2">Utilisateurs</x-table.heading>
                         <x-table.heading class="col"/>
                     </x-table.row>
 
@@ -33,11 +33,11 @@
                                 <div class="d-flex justify-content-center">
                                     @unless($selectAll)
                                         <div>
-                                            <span>You selected <strong> {{ $distributionGroups->count() }} </strong> distribution groups, do you want to select all <strong> {{ $distributionGroups->total() }} </strong>?</span>
-                                            <x-button.link wire:click="selectAll">Select All</x-button.link>
+                                            <span>Vous avez sélectionné <strong> {{ $distributionGroups->count() }} </strong> groupes de distribution, voulez-vous sélectionner tous les <strong> {{ $distributionGroups->total() }} </strong> ?</span>
+                                            <x-button.link wire:click="selectAll">Tout sélectionner</x-button.link>
                                         </div>
                                     @else
-                                        <span>You have selected all <strong> {{ $distributionGroups->total() }} </strong> distribution groups.</span>
+                                        <span>Vous avez sélectionné tous les <strong> {{ $distributionGroups->total() }} </strong> groupes de distribution.</span>
                                     @endif
                                 </div>
                             </x-table.cell>
@@ -55,9 +55,9 @@
                                     <x-link route="users" id="{{ $user->id }}" value="{{ $user->forename }} {{ $user->surname }}"></x-link><br>
                                 @endforeach
                             </x-table.cell>
-                            <x-table.cell class="col">
+                                    <x-table.cell class="col">
                                 <div class="btn-group" role="group" aria-label="Basic example">
-                                    <x-button.primary wire:click="edit({{ $distributionGroup->id }})" ><x-loading wire:target="edit({{ $distributionGroup->id }})" />Edit</x-button.primary>
+                                    <x-button.primary wire:click="edit({{ $distributionGroup->id }})" ><x-loading wire:target="edit({{ $distributionGroup->id }})" />Modifier</x-button.primary>
                                 </div>
                             </x-table.cell>
                         </x-table.row>
@@ -65,7 +65,7 @@
                         <x-table.row>
                             <x-table.cell width="12">
                                 <div class="d-flex justify-content-center">
-                                    No distribution groups found
+                                    Aucun groupe de distribution trouvé
                                 </div>
                             </x-table.cell>
                         </x-table.row>
@@ -80,15 +80,15 @@
     <!-- Delete Modal -->
     <form wire:submit.prevent="deleteSelected">
         <x-modal.dialog type="confirmModal">
-            <x-slot name="title">Delete Loans</x-slot>
+            <x-slot name="title">Supprimer les groupes de distribution</x-slot>
 
             <x-slot name="content">
-                Are you sure you want to delete these distribution groups? This action is irreversible.
+                Êtes-vous sûr de vouloir supprimer ces groupes de distribution ? Cette action est irréversible.
             </x-slot>
 
             <x-slot name="footer">
-                <x-button.secondary wire:click="$emit('hideModal','confirm')">Cancel</x-button.secondary>
-                <x-button.danger type="submit">Delete</x-button.primary>
+                <x-button.secondary wire:click="$emit('hideModal','confirm')">Annuler</x-button.secondary>
+                <x-button.danger type="submit">Supprimer</x-button.primary>
             </x-slot>
         </x-modal.dialog>
     </form>
@@ -96,19 +96,19 @@
     <!-- Create/Edit Modal -->
     <form wire:submit.prevent="save">
         <x-modal.dialog type="editModal" class="modal-xl">
-            <x-slot name="title">{{ $modalType }} Distribution Group</x-slot>
+            <x-slot name="title">{{ $modalType }} Groupe de distribution</x-slot>
 
             <x-slot name="content">
                 <div class="row">
                     <div class="col-md-6">
                         <!-- Name -->
-                        <x-input.group label="Name" for="name" :error="$errors->first('editing.name')">
+                        <x-input.group label="Nom" for="name" :error="$errors->first('editing.name')">
                             <x-input.text wire:model.defer="editing.name" id="name" rows="8" />
                         </x-input.group>
 
                         <!-- Users -->
-                        <x-input.group label="Users" for="user_id" :error="$errors->first('user_id')">
-                            <x-input.select wire:model="user_id" id="user_id" clearSelection disabledSelected iteration="{{ $iteration }}" placeholder="Select User" fullWidth inModal>
+                        <x-input.group label="Utilisateurs" for="user_id" :error="$errors->first('user_id')">
+                            <x-input.select wire:model="user_id" id="user_id" clearSelection disabledSelected iteration="{{ $iteration }}" placeholder="Sélectionner un utilisateur" fullWidth inModal>
                                 @foreach ($equipmentList as $user)
                                     @if($user['avaliable'] == true)
                                         <option value="{{ $user['id'] }}">{{ $user['forename'] }} {{ $user['surname'] }}</option>

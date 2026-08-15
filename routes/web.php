@@ -23,6 +23,7 @@ use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AppSettingsController;
 use App\Http\Controllers\SignageController;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -76,13 +77,13 @@ Route::middleware(['auth', 'checkpassword'])->group(function () {
  */
 Route::middleware('guest')->group(function () {
     //Login
-    Route::get('/', [LoginController::class, 'index']);
-    Route::get('login', [LoginController::class, 'index'])->name('login');
+    Route::get('/', [AuthController::class, 'login_page']);
+    Route::get('login', [AuthController::class, 'login_page'])->name('login');
+    Route::post('login', [AuthController::class, 'login']);
 });
 
 Route::middleware('auth')->group(function () {
-    //Register
-    Route::get('register', [RegisterController::class, 'index'])->name('register');
+    Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 });
 
 /**

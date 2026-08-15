@@ -43,11 +43,11 @@
                                 <div class="d-flex justify-content-center">
                                     @unless($selectAll)
                                         <div>
-                                            <span>You selected <strong> {{ $setups->count() }} </strong> setups, do you want to select all <strong> {{ $setups->total() }} </strong>?</span>
-                                            <x-button.link wire:click="selectAll">Select All</x-button.link>
+                                            <span>Vous avez sélectionné <strong> {{ $setups->count() }} </strong> configurations, voulez-vous sélectionner toutes les <strong> {{ $setups->total() }} </strong> ?</span>
+                                            <x-button.link wire:click="selectAll">Tout sélectionner</x-button.link>
                                         </div>
                                     @else
-                                        <span>You have selected all <strong> {{ $setups->total() }} </strong> setups.</span>
+                                        <span>Vous avez sélectionné toutes les <strong> {{ $setups->total() }} </strong> configurations.</span>
                                     @endif
                                 </div>
                             </x-table.cell>
@@ -67,10 +67,10 @@
                         <x-table.cell class="col-2" title="{{ $setup->loan->details }}">
                             @if(strlen($setup->loan->details) > 300 && !in_array('details-'.$setup->id, $expandedCells))
                                 {{ substr($setup->loan->details, 0, 297) }}...
-                                <div><x-button.link wire:click.prevent="expandCell('details-{{ $setup->id }}')">Show more</x-button.link></div>
+                                <div><x-button.link wire:click.prevent="expandCell('details-{{ $setup->id }}')">Voir plus</x-button.link></div>
                             @elseif(in_array('details-'.$setup->id, $expandedCells))
                                 {{ $setup->loan->details }}
-                                <div><x-button.link wire:click.prevent="collapseCell('details-{{ $setup->id }}')">Show less</x-button.link></div>
+                                <div><x-button.link wire:click.prevent="collapseCell('details-{{ $setup->id }}')">Voir moins</x-button.link></div>
                             @else
                                 {{ $setup->loan->details }}
                             @endif
@@ -82,17 +82,17 @@
                         </x-table.cell>
                         <x-table.cell class="col">
                             <div class="btn-group" role="group" aria-label="Basic example">
-                                <x-button.success wire:click="complete({{ $setup->id }})" ><x-loading wire:target="complete({{ $setup->id }})" />Complete</x-button.success>
-                                <x-button.danger wire:click="cancel({{ $setup->id }})" ><x-loading wire:target="cancel({{ $setup->id }})" />Cancel</x-button.danger>
-                                <x-button.primary class="edit-button" data-setup="{{ $setup->toJSON() }}">Edit</x-button.primary>
+                                <x-button.success wire:click="complete({{ $setup->id }})" ><x-loading wire:target="complete({{ $setup->id }})" />Terminer</x-button.success>
+                                <x-button.danger wire:click="cancel({{ $setup->id }})" ><x-loading wire:target="cancel({{ $setup->id }})" />Annuler</x-button.danger>
+                                <x-button.primary class="edit-button" data-setup="{{ $setup->toJSON() }}">Modifier</x-button.primary>
                             </div>
                         </x-table.cell>
                     </x-table.row>
                     @empty
                         <x-table.row>
-                            <x-table.cell width="12">
+                                    <x-table.cell width="12">
                                 <div class="d-flex justify-content-center">
-                                    No setups found
+                                    Aucune configuration trouvée
                                 </div>
                             </x-table.cell>
                         </x-table.row>
@@ -107,15 +107,15 @@
     <!-- Delete Modal -->
     <form wire:submit.prevent="deleteSelected">
         <x-modal.dialog type="confirmModal">
-            <x-slot name="title">Delete Setups</x-slot>
+            <x-slot name="title">Supprimer les configurations</x-slot>
 
             <x-slot name="content">
-                Are you sure you want to delete these setups? This action is irreversible.
+                Êtes-vous sûr de vouloir supprimer ces configurations ? Cette action est irréversible.
             </x-slot>
 
             <x-slot name="footer">
-                <x-button.secondary wire:click="$emit('hideModal','confirm')">Cancel</x-button.secondary>
-                <x-button.danger type="submit">Delete</x-button.primary>
+                <x-button.secondary wire:click="$emit('hideModal','confirm')">Annuler</x-button.secondary>
+                <x-button.danger type="submit">Supprimer</x-button.primary>
             </x-slot>
         </x-modal.dialog>
     </form>

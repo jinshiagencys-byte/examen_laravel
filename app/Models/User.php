@@ -16,7 +16,7 @@ class User extends Authenticatable
 
     protected $guarded = [];
 
-    protected $fillable = ['nom', 'email', 'password', 'role', 'statut'];
+    protected $fillable = ['nom', 'email', 'password', 'role', 'statut', 'password_set'];
 
     protected $hidden = ['password', 'remember_token'];
 
@@ -24,6 +24,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'role' => 'string',
         'statut' => 'string',
+        'password_set' => 'boolean',
     ];
 
     public function emprunts()

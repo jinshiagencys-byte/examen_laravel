@@ -30,7 +30,7 @@ class Register extends Component
             $user->password_set = 1;
             $user->save();
 
-            return redirect()->route('login');
+            return $this->redirect(route('login'));
         }
         return $this->addError('passwordConfirmation', trans('auth.password_mismatch'));
     }

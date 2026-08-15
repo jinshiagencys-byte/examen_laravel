@@ -8,3 +8,16 @@
 README.md
 phpunit.xml
 tests
+.git
+.gitignore
+node_modules
+vendor
+storage
+.env
+.env.*
+.idea
+.vscode
+.devcontainer
+public/hot
+public/build
+bootstrap/cache/*.php

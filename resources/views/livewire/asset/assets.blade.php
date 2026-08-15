@@ -35,8 +35,8 @@
                                 <div class="d-flex justify-content-center">
                                     @unless($selectAll)
                                         <div>
-                                            <span>You selected <strong> {{ $assets->count() }} </strong> assets, do you want to select all <strong> {{ $assets->total() }} </strong>?</span>
-                                            <x-button.link wire:click="selectAll">Select All</x-button.link>
+                                            <span>{{ __('ui.selected_assets', ['count' => $assets->count()]) }}, {{ __('ui.select_all') }} <strong> {{ $assets->total() }} </strong>?</span>
+                                            <x-button.link wire:click="selectAll">{{ __('ui.select_all') }}</x-button.link>
                                         </div>
                                     @else
                                         <span>You have selected all <strong> {{ $assets->total() }} </strong> assets.</span>
@@ -56,23 +56,23 @@
                             <x-table.cell class="col" title="{{ $asset->description }}">
                                 @if(strlen($asset->description) > 300 && !in_array('description-'.$asset->id, $expandedCells))
                                     {{ substr($asset->description, 0, 297) }}...
-                                    <div><x-button.link wire:click.prevent="expandCell('description-{{ $asset->id }}')">Show more</x-button.link></div>
+                                    <div><x-button.link wire:click.prevent="expandCell('description-{{ $asset->id }}')">{{ __('ui.show_more') }}</x-button.link></div>
                                 @elseif(in_array('description-'.$asset->id, $expandedCells))
                                     {{ $asset->description }}
-                                    <div><x-button.link wire:click.prevent="collapseCell('description-{{ $asset->id }}')">Show less</x-button.link></div>
+                                    <div><x-button.link wire:click.prevent="collapseCell('description-{{ $asset->id }}')">{{ __('ui.show_less') }}</x-button.link></div>
                                 @else
                                     {{ $asset->description }}
                                 @endif
                             </x-table.cell>
                             <x-table.cell class="col-2">
-                                <x-button.primary wire:click="edit({{ $asset->id }})" ><x-loading wire:target="edit({{ $asset->id }})" />Edit</x-button.primary>
+                                <x-button.primary wire:click="edit({{ $asset->id }})" ><x-loading wire:target="edit({{ $asset->id }})" />{{ __('ui.edit') }}</x-button.primary>
                             </x-table.cell>
                         </x-table.row>
                     @empty
                         <x-table.row>
                             <x-table.cell width="12">
-                                <div class="d-flex justify-content-center">
-                                    No assets found
+                                    <div class="d-flex justify-content-center">
+                                    {{ __('ui.no_assets_found') }}
                                 </div>
                             </x-table.cell>
                         </x-table.row>
@@ -87,15 +87,15 @@
     <!-- Delete Modal -->
     <form wire:submit.prevent="deleteSelected">
         <x-modal.dialog type="confirmModal">
-            <x-slot name="title">Delete Assets</x-slot>
+            <x-slot name="title">{{ __('ui.delete_title', ['item' => 'Assets']) }}</x-slot>
 
             <x-slot name="content">
-                Are you sure you want to delete these assets? This action is irreversible.
+                {{ __('ui.delete_confirmation', ['item' => 'assets']) }}
             </x-slot>
 
             <x-slot name="footer">
-                <x-button.secondary wire:click="$emit('hideModal','confirm')">Cancel</x-button.secondary>
-                <x-button.danger type="submit">Delete</x-button.primary>
+                <x-button.secondary wire:click="$emit('hideModal','confirm')">{{ __('ui.cancel') }}</x-button.secondary>
+                <x-button.danger type="submit">{{ __('ui.delete') }}</x-button.primary>
             </x-slot>
         </x-modal.dialog>
     </form>
@@ -103,25 +103,25 @@
     <!-- Create/Edit Modal -->
     <form wire:submit.prevent="save">
         <x-modal.dialog type="editModal">
-            <x-slot name="title">{{ $modalType }} Asset</x-slot>
+            <x-slot name="title">{{ $modalType }} {{ __('ui.asset') }}</x-slot>
 
             <x-slot name="content">
-                <x-input.group for="name" label="Name" :error="$errors->first('editing.name')">
+                <x-input.group for="name" label="{{ __('ui.name') }}" :error="$errors->first('editing.name')">
                     <x-input.text wire:model.defer="editing.name" id="name" />
                 </x-input.group>
 
-                <x-input.group for="tag" label="Tag" :error="$errors->first('editing.tag')">
+                <x-input.group for="tag" label="{{ __('ui.tag') }}" :error="$errors->first('editing.tag')">
                     <x-input.text wire:model.defer="editing.tag" id="tag" />
                 </x-input.group>
 
-                <x-input.group for="description" label="Description" :error="$errors->first('editing.description')">
+                <x-input.group for="description" label="{{ __('ui.description') }}" :error="$errors->first('editing.description')">
                     <x-input.textarea wire:model.defer="editing.description" id="description" />
                 </x-input.group>
             </x-slot>
 
             <x-slot name="footer">
-                <x-button.secondary wire:click="$emit('hideModal','edit')">Cancel</x-button.secondary>
-                <x-button.primary type="submit">Save</x-button.primary>
+                <x-button.secondary wire:click="$emit('hideModal','edit')">{{ __('ui.cancel') }}</x-button.secondary>
+                <x-button.primary type="submit">{{ __('ui.save') }}</x-button.primary>
             </x-slot>
         </x-modal.dialog>
     </form>

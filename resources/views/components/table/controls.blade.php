@@ -6,7 +6,7 @@
 
 <div class="row">
     <div class="col-lg-3 mb-3">
-        <x-input.text wire:model="filters.search" placeholder="Search {{ $name }}..." />
+        <x-input.text wire:model="filters.search" placeholder="{{ __('ui.search') }} {{ $name }}..." />
     </div>
 
     <div class="col-lg-1">
@@ -24,8 +24,8 @@
     <div class="col">
         <x-dropdown class="float-right" label="Actions">
             <x-dropdown.item wire:click="exportSelected">Export</x-dropdown.item>
-            <x-dropdown.item wire:click="$emit('showModal','confirm')">Delete</x-dropdown.item>
+            <x-dropdown.item wire:click="$emit('showModal','confirm')">{{ __('ui.delete') }}</x-dropdown.item>
         </x-dropdown>
-        <x-button.primary class="float-right mx-2 px-5" id="create" wire:click="{{ $legacyModal ? 'create' : '' }}">New {{ $name }}</x-button.primary>
+        <x-button.primary class="float-right mx-2 px-5" id="create" wire:click="{{ $legacyModal ? 'create' : '' }}">{{ __('ui.new') }} {{ $name }}</x-button.primary>
     </div>
 </div>
