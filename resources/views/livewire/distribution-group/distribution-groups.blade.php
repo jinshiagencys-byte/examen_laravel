@@ -111,9 +111,9 @@
                             <x-input.select wire:model="user_id" id="user_id" clearSelection disabledSelected iteration="{{ $iteration }}" placeholder="Sélectionner un utilisateur" fullWidth inModal>
                                 @foreach ($equipmentList as $user)
                                     @if($user['avaliable'] == true)
-                                        <option value="{{ $user['id'] }}">{{ $user['forename'] }} {{ $user['surname'] }}</option>
+                                        <option value="{{ $user['id'] }}">{{ $user['nom'] ?? $user['name'] ?? '' }}</option>
                                     @else
-                                        <option value="{{ $user['id'] }}" disabled>{{ $user['forename'] }} ({{ $user['surname'] }})</option>
+                                        <option value="{{ $user['id'] }}" disabled>{{ $user['nom'] ?? $user['name'] ?? '' }}</option>
                                     @endif
                                 @endforeach
                             </x-input.select>
@@ -125,7 +125,7 @@
                         <div wire:model="shoppingCart" iteration="{{ $iteration }}">
                             <x-shoppingCart.group>
                                 @foreach ($shoppingCart as $key => $user)
-                                    <x-shoppingCart.cartCard id="{{ $user['id'] }}" name="{{ $user['forename'] }} {{ $user['surname'] }}" />
+                                    <x-shoppingCart.cartCard id="{{ $user['id'] }}" name="{{ $user['nom'] ?? $user['name'] ?? '' }}" />
                                 @endforeach
                             </x-shoppingCart.group>
                         </div>

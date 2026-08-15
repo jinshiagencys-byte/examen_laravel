@@ -166,11 +166,11 @@ class DistributionGroups extends Component
         $search = SQL::escapeLikeString($search);
         if ($orWhere) {
             $query->orWhereHas('users', function ($query) use ($search) {
-                $query->where(DB::raw("CONCAT(forename, ' ', surname)"), 'like', '%'.$search.'%');
+                $query->where('nom', 'like', '%'.$search.'%');
             });
         } else {
             $query->whereHas('users', function ($query) use ($search) {
-                $query->where(DB::raw("CONCAT(forename, ' ', surname)"), 'like', '%'.$search.'%');
+                $query->where('nom', 'like', '%'.$search.'%');
             });
         }
     }

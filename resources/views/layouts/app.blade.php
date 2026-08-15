@@ -25,7 +25,7 @@
 
                 <div class="navbar-nav ml-auto">
                     <div class="nav-item dropdown">
-                        <a href="#" data-toggle="dropdown" class="nav-item nav-link dropdown-toggle user-action">{{ Auth::user()->forename }} {{ Auth::user()->surname }}<b class="caret"></b></a>
+                        <a href="#" data-toggle="dropdown" class="nav-item nav-link dropdown-toggle user-action">{{ Auth::user()->nom }}<b class="caret"></b></a>
                         <div class="dropdown-menu">
                             <a href="/profile" class="dropdown-item"><i class="fa-solid fa-user"></i> {{ __('ui.profile') }}</a>
                             <div class="divider dropdown-divider"></div>
