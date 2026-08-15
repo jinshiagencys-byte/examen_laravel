@@ -39,11 +39,13 @@ class UserController extends Controller
     {
         $data = [];
         $users = User::latest()->get();
-        foreach($users as $key => $user) {
+        foreach($users as $user) {
             $data[] = [
-                'id' => $user['id'],
-                'forename' => $user['forename'],
-                'surname' => $user['surname']
+                'id' => $user->id,
+                'nom' => $user->nom,
+                'email' => $user->email,
+                'role' => $user->role,
+                'statut' => $user->statut,
             ];
         }
         return $data;

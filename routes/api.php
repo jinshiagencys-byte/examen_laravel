@@ -13,6 +13,10 @@ use App\Http\Controllers\LoanController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\SetupController;
 use App\Http\Controllers\IncidentController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\MaterielController;
+use App\Http\Controllers\EmpruntController;
+use App\Http\Controllers\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -55,4 +59,24 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/setups/{id}', [SetupController::class, 'put']);
     Route::post('/incidents', [IncidentController::class, 'create']);
     Route::put('/incidents/{id}', [IncidentController::class, 'put']);
+
+    // New exam API
+    Route::get('/categories', [CategoryController::class, 'index']);
+    Route::post('/categories', [CategoryController::class, 'store']);
+    Route::get('/categories/{category}', [CategoryController::class, 'show']);
+    Route::put('/categories/{category}', [CategoryController::class, 'update']);
+    Route::delete('/categories/{category}', [CategoryController::class, 'destroy']);
+
+    Route::get('/materiels', [MaterielController::class, 'index']);
+    Route::post('/materiels', [MaterielController::class, 'store']);
+    Route::get('/materiels/{materiel}', [MaterielController::class, 'show']);
+    Route::put('/materiels/{materiel}', [MaterielController::class, 'update']);
+    Route::delete('/materiels/{materiel}', [MaterielController::class, 'destroy']);
+
+    Route::get('/emprunts', [EmpruntController::class, 'index']);
+    Route::post('/emprunts', [EmpruntController::class, 'store']);
+    Route::get('/emprunts/{emprunt}', [EmpruntController::class, 'show']);
+    Route::post('/emprunts/{emprunt}/return', [EmpruntController::class, 'return']);
+
+    Route::get('/dashboard', [DashboardController::class, 'index']);
 });
