@@ -2,38 +2,32 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, HasUuids;
+
+    public $incrementing = false;
+
+    protected $keyType = 'string';
 
     protected $guarded = [];
 
-    protected $fillable = ['forename', 'surname', 'email', 'has_account', 'password_set'];
-
-    protected $attributes = ['has_account' => false];
+    protected $fillable = ['nom', 'email', 'password', 'role', 'statut'];
 
     protected $hidden = ['password', 'remember_token'];
 
-    protected $casts = ['email_verified_at' => 'datetime'];
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'role' => 'string',
+        'statut' => 'string',
+    ];
 
-    /**
-     * A user can have many loans.
-     */
-    public function loans()
+    public function emprunts()
     {
-        return $this->hasMany(Loan::class);
-    }
-
-    /**
-     * A user can belongs to many distribution groups.
-     */
-    public function distributionGroups()
-    {
-        return $this->belongsToMany(DistributionGroup::class, 'distribution_groups_user', 'user_id', 'distribution_group_id');
+        return $this->hasMany(Emprunt::class, 'user_id');
     }
 }
