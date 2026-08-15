@@ -18,7 +18,7 @@ class EmpruntTest extends TestCase
         $admin = User::factory()->admin()->create();
         $employee = User::factory()->employee()->create();
         $category = Category::factory()->create();
-        $materiel = Materiel::factory()->create(['quantite_disponible' => 1, 'category_id' => $category->id]);
+        $materiel = Materiel::factory()->create(['quantite_disponible' => 1, 'category_id' => $category->id, 'etat' => 'disponible']);
 
         // Create emprunt as employee
         $this->actingAs($employee);
