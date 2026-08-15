@@ -15,7 +15,7 @@ class CreateDistributionGroupUsersTable extends Migration
     {
         Schema::create('distribution_group_user', function (Blueprint $table) {
             $table->integer('distribution_group_id')->unsigned();
-            $table->integer('user_id')->unsigned();
+            $table->uuid('user_id');
             $table->foreign('distribution_group_id')
                 ->references('id')
                 ->on('distribution_groups');
