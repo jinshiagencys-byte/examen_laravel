@@ -94,8 +94,8 @@
                             </x-table.cell>
                             <x-table.cell class="col-2">
                                 <div class="btn-group" role="group" aria-label="Basic example">
-                                    <x-button.primary class="edit-button" data-loan="{{ $incident->toJSON() }}">Edit</x-button.primary>
-                                    <x-button.success wire:click="resolve({{ $incident->id }})" ><x-loading wire:target="resolve({{ $incident->id }})" />Resolve</x-button.success>
+                                    <x-button.primary wire:click="edit({{ $incident->id }})"><x-loading wire:target="edit({{ $incident->id }})" />{{ __('ui.edit') }}</x-button.primary>
+                                    <x-button.success wire:click="resolve({{ $incident->id }})" ><x-loading wire:target="resolve({{ $incident->id }})" />Résoudre</x-button.success>
                                 </div>
                             </x-table.cell>
                         </x-table.row>

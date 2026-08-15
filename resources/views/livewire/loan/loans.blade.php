@@ -101,12 +101,12 @@
                             <x-table.cell class="col">
                                 <div class="btn-group" role="group" aria-label="Basic example">
                                     @if($loan->status_id == 1)
-                                        <x-button.success wire:click="book({{ $loan->id }})" ><x-loading wire:target="book({{ $loan->id }})" />Book Out</x-button.success>
-                                        <x-button.danger wire:click="cancel({{ $loan->id }})" ><x-loading wire:target="cancel({{ $loan->id }})" />Cancel</x-button.danger>
+                                        <x-button.success wire:click="book({{ $loan->id }})" ><x-loading wire:target="book({{ $loan->id }})" />Valider l'emprunt</x-button.success>
+                                        <x-button.danger wire:click="cancel({{ $loan->id }})" ><x-loading wire:target="cancel({{ $loan->id }})" />{{ __('ui.cancel') }}</x-button.danger>
                                     @else
-                                        <x-button.success wire:click="complete({{ $loan->id }})" ><x-loading wire:target="complete({{ $loan->id }})" />Complete</x-button.success>
+                                        <x-button.success wire:click="complete({{ $loan->id }})" ><x-loading wire:target="complete({{ $loan->id }})" />Terminer</x-button.success>
                                     @endif
-                                    <x-button.primary class="edit-button" data-loan="{{ $loan->toJSON() }}">Edit</x-button.primary>
+                                    <x-button.primary wire:click="edit({{ $loan->id }})"><x-loading wire:target="edit({{ $loan->id }})" />{{ __('ui.edit') }}</x-button.primary>
                                 </div>
                             </x-table.cell>
                         </x-table.row>
