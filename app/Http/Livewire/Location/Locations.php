@@ -73,22 +73,14 @@ class Locations extends Component
     public function create()
     {
         $this->modalType = 'Create';
-
-        if ($this->editing->getKey()){
-            $this->makeBlankLocation();
-        }
-
+        $this->makeBlankLocation();
         $this->emit('showModal', 'edit');
     }
 
     public function edit(Location $location)
     {
         $this->modalType = 'Edit';
-
-        if($this->editing->isNot($location)){
-            $this->editing = $location;
-        }
-
+        $this->editing = $location;
         $this->emit('showModal', 'edit');
     }
 

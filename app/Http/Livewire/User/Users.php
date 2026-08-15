@@ -37,8 +37,7 @@ class Users extends Component
     public function rules()
     {
         return [
-            'editing.forename' => 'required|string',
-            'editing.surname' => 'required|string',
+            'editing.nom' => 'required|string',
             'editing.email' => 'required|email|unique:users,email,'.$this->editing->id,
             'editing.has_account' => 'required|boolean',
         ];
@@ -61,7 +60,7 @@ class Users extends Component
 
     public function makeBlankUser()
     {
-        $this->editing = User::make();
+        $this->editing = User::make(['has_account' => true]);
     }
 
     public function deleteSelected()
@@ -82,22 +81,14 @@ class Users extends Component
     public function create()
     {
         $this->modalType = 'Create';
-
-        if ($this->editing->getKey()){
-            $this->makeBlankUser();
-        }
-
+        $this->makeBlankUser();
         $this->emit('showModal', 'edit');
     }
 
     public function edit(User $user)
     {
         $this->modalType = 'Edit';
-
-        if($this->editing->isNot($user)){
-            $this->editing = $user;
-        }
-
+        $this->editing = $user;
         $this->emit('showModal', 'edit');
     }
 

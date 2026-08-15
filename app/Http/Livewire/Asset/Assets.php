@@ -78,22 +78,14 @@ class Assets extends Component
     public function create()
     {
         $this->modalType = "Create";
-
-        if ($this->editing->getKey()){
-            $this->makeBlankAsset();
-        }
-
+        $this->makeBlankAsset();
         $this->emit('showModal', 'edit');
     }
 
     public function edit(Asset $asset)
     {
         $this->modalType = "Edit";
-
-        if($this->editing->isNot($asset)){
-            $this->editing = $asset;
-        }
-
+        $this->editing = $asset;
         $this->emit('showModal', 'edit');
     }
 
