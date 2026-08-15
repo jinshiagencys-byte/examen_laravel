@@ -2,7 +2,7 @@
     <div class="wrapper">
         <!-- Navigation Bar -->
         <nav class="navbar navbar-expand-xl navbar-dark bg-dark">
-            <a href="#" class="navbar-brand"><i class="fa fa-cube"></i> {{ __('ui.login_title') }}</a>
+            <a href="#" class="navbar-brand"><i class="fa fa-cube"></i> {{ __('ui.app_name') }}</a>
             <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
                 <span class="navbar-toggler-icon"></span>
             </button>
