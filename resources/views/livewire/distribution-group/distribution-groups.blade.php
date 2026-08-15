@@ -52,7 +52,7 @@
                             <x-table.cell class="col-2"><x-link route="distributionGroups" id="{{ $distributionGroup->id }}" value="{{ $distributionGroup->name }}"></x-link></x-table.cell>
                             <x-table.cell class="col-2">
                                 @foreach($distributionGroup->users as $user)
-                                    <x-link route="users" id="{{ $user->id }}" value="{{ $user->forename }} {{ $user->surname }}"></x-link><br>
+                                    <x-link route="users" id="{{ $user->id }}" value="{{ $user->nom }}"></x-link><br>
                                 @endforeach
                             </x-table.cell>
                                     <x-table.cell class="col">
@@ -134,8 +134,8 @@
             </x-slot>
 
             <x-slot name="footer">
-                <x-button.secondary wire:click="$emit('hideModal','edit')">Cancel</x-button.secondary>
-                <x-button.primary type="submit">Save</x-button.primary>
+                <x-button.secondary wire:click="$emit('hideModal','edit')">{{ __('ui.cancel') }}</x-button.secondary>
+                <x-button.primary type="submit">{{ __('ui.save') }}</x-button.primary>
             </x-slot>
         </x-modal.dialog>
     </form>

@@ -1,5 +1,5 @@
 <div>
-    <x-table.controls name="User" perPage="{{ $perPage }}" />
+    <x-table.controls name="Utilisateur" perPage="{{ $perPage }}" />
 
     <div class="row">
         <div wire:poll.10s class="col-lg-12">
@@ -9,8 +9,8 @@
                         <x-table.heading direction="null">
                             <x-input.checkbox wire:model="selectPage" />
                         </x-table.heading>
-                        <x-table.heading sortable wire:click="sortBy('user_full_name')" :direction="$sorts['user_full_name'] ?? null" class="col-3">User</x-table.heading>
-                        <x-table.heading sortable wire:click="sortBy('email')" :direction="$sorts['email'] ?? null" class="col">Email</x-table.heading>
+                        <x-table.heading sortable wire:click="sortBy('user_full_name')" :direction="$sorts['user_full_name'] ?? null" class="col-3">{{ __('ui.user') }}</x-table.heading>
+                        <x-table.heading sortable wire:click="sortBy('email')" :direction="$sorts['email'] ?? null" class="col">{{ __('ui.email_address') }}</x-table.heading>
                         <x-table.heading class="col-2"/>
                     </x-table.row>
 
@@ -33,11 +33,11 @@
                                 <div class="d-flex justify-content-center">
                                     @unless($selectAll)
                                         <div>
-                                            <span>You selected <strong> {{ $users->count() }} </strong> users, do you want to select all <strong> {{ $users->total() }} </strong>?</span>
-                                            <x-button.link wire:click="selectAll">Select All</x-button.link>
+                                            <span>Vous avez sélectionné <strong> {{ $users->count() }} </strong> utilisateurs, voulez-vous tous les sélectionner (<strong> {{ $users->total() }} </strong>) ?</span>
+                                            <x-button.link wire:click="selectAll">{{ __('ui.select_all') }}</x-button.link>
                                         </div>
                                     @else
-                                        <span>You have selected all <strong> {{ $users->total() }} </strong> users.</span>
+                                        <span>Tous les <strong> {{ $users->total() }} </strong> utilisateurs sont sélectionnés.</span>
                                     @endif
                                 </div>
                             </x-table.cell>
@@ -49,12 +49,12 @@
                             <x-table.cell >
                                 <x-input.checkbox wire:model="selected" value="{{ $user->id }}"></x-input.checkbox>
                             </x-table.cell>
-                            <x-table.cell class="col-3"><x-link route="users" id="{{ $user->id }}" value="{{ $user->forename }} {{ $user->surname }}"></x-link></x-table.cell>
+                            <x-table.cell class="col-3"><x-link route="users" id="{{ $user->id }}" value="{{ $user->nom }}"></x-link></x-table.cell>
                             <x-table.cell class="col">{{ $user->email }}</x-table.cell>
                             <x-table.cell class="col-2">
-                                <x-button.primary wire:click="edit({{ $user->id }})" ><x-loading wire:target="edit({{ $user->id }})" />Edit</x-button.primary>
+                                <x-button.primary wire:click="edit({{ $user->id }})" ><x-loading wire:target="edit({{ $user->id }})" />{{ __('ui.edit') }}</x-button.primary>
                                 @if($user->has_account)
-                                    <x-button.danger wire:click="resetPassword({{ $user->id }})" ><x-loading wire:target="resetPassword({{ $user->id }})" />Reset Password</x-button.danger>
+                                    <x-button.danger wire:click="resetPassword({{ $user->id }})" ><x-loading wire:target="resetPassword({{ $user->id }})" />Réinitialiser mot de passe</x-button.danger>
                                 @endif
                             </x-table.cell>
                         </x-table.row>
@@ -62,7 +62,7 @@
                         <x-table.row>
                             <x-table.cell width="12">
                                 <div class="d-flex justify-content-center">
-                                    No users found
+                                    Aucun utilisateur trouvé
                                 </div>
                             </x-table.cell>
                         </x-table.row>
@@ -77,15 +77,15 @@
     <!-- Delete Modal -->
     <form wire:submit.prevent="deleteSelected">
         <x-modal.dialog type="confirmModal">
-            <x-slot name="title">Delete Users</x-slot>
+            <x-slot name="title">Supprimer les utilisateurs</x-slot>
 
             <x-slot name="content">
-                Are you sure you want to delete these users? This action is irreversible.
+                Êtes-vous sûr de vouloir supprimer ces utilisateurs ? Cette action est irréversible.
             </x-slot>
 
             <x-slot name="footer">
-                <x-button.secondary wire:click="$emit('hideModal','confirm')">Cancel</x-button.secondary>
-                <x-button.danger type="submit">Delete</x-button.primary>
+                <x-button.secondary wire:click="$emit('hideModal','confirm')">{{ __('ui.cancel') }}</x-button.secondary>
+                <x-button.danger type="submit">{{ __('ui.delete') }}</x-button.primary>
             </x-slot>
         </x-modal.dialog>
     </form>
@@ -93,29 +93,25 @@
     <!-- Create/Edit Modal -->
     <form wire:submit.prevent="save">
         <x-modal.dialog type="editModal">
-            <x-slot name="title">{{ $modalType }} User</x-slot>
+            <x-slot name="title">{{ $modalType == 'Create' ? 'Créer un' : 'Modifier l\'' }} Utilisateur</x-slot>
 
             <x-slot name="content">
-                <x-input.group for="forename" label="Forename" :error="$errors->first('editing.forename')">
-                    <x-input.text wire:model.defer="editing.forename" id="forename" />
+                <x-input.group for="nom" label="{{ __('ui.name') }}" :error="$errors->first('editing.nom')">
+                    <x-input.text wire:model.defer="editing.nom" id="nom" />
                 </x-input.group>
 
-                <x-input.group for="surname" label="Surname" :error="$errors->first('editing.surname')">
-                    <x-input.text wire:model.defer="editing.surname" id="surname" />
-                </x-input.group>
-
-                <x-input.group for="email" label="Email" :error="$errors->first('editing.email')">
+                <x-input.group for="email" label="{{ __('ui.email_address') }}" :error="$errors->first('editing.email')">
                     <x-input.text wire:model.defer="editing.email" id="email" />
                 </x-input.group>
 
-                <x-input.group for="has_account" label="Has Account" :error="$errors->first('editing.has_account')">
+                <x-input.group for="has_account" label="Compte actif" :error="$errors->first('editing.has_account')">
                     <x-input.checkbox wire:model.defer="editing.has_account" id="has_account" />
                 </x-input.group>
             </x-slot>
 
             <x-slot name="footer">
-                <x-button.secondary wire:click="$emit('hideModal','edit')">Cancel</x-button.secondary>
-                <x-button.primary type="submit">Save</x-button.primary>
+                <x-button.secondary wire:click="$emit('hideModal','edit')">{{ __('ui.cancel') }}</x-button.secondary>
+                <x-button.primary type="submit">{{ __('ui.save') }}</x-button.primary>
             </x-slot>
         </x-modal.dialog>
     </form>
