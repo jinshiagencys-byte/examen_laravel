@@ -18,6 +18,7 @@ class UserFactory extends Factory
             'password' => Hash::make('password'),
             'role' => $this->faker->randomElement(['administrateur', 'employe']),
             'statut' => 'active',
+            'password_set' => true,
         ];
     }
 
