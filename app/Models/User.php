@@ -31,4 +31,39 @@ class User extends Authenticatable
     {
         return $this->hasMany(Emprunt::class, 'user_id');
     }
+
+    public function getForenameAttribute()
+    {
+        return $this->nom;
+    }
+
+    public function setForenameAttribute($value)
+    {
+        $this->attributes['nom'] = $value;
+    }
+
+    public function getSurnameAttribute()
+    {
+        return '';
+    }
+
+    public function setSurnameAttribute($value)
+    {
+        // Ignored as nom stores the full name
+    }
+
+    public function getNameAttribute()
+    {
+        return $this->nom;
+    }
+
+    public function setNameAttribute($value)
+    {
+        $this->attributes['nom'] = $value;
+    }
+
+    public function getUserFullNameAttribute()
+    {
+        return $this->nom;
+    }
 }

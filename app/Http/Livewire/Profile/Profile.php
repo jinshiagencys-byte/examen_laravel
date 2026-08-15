@@ -11,11 +11,7 @@ class Profile extends Component
 {
     public User $editing;
 
-    /**
-     * User password is a protected field, so will always appear blank on the
-     * frontend. We need this separate field to update the password
-     */
-    public string $newPassword;
+    public string $newPassword = '';
 
     public bool $saved = false;
 
@@ -27,10 +23,9 @@ class Profile extends Component
     public function rules()
     {
         return [
-            'editing.forename' => 'required|string',
-            'editing.surname' => 'required|string',
+            'editing.nom' => 'required|string',
             'editing.email' => 'required|email|unique:users,email,'.$this->editing->id,
-            'newPassword' => 'required|string',
+            'newPassword' => 'nullable|string',
         ];
     }
 
@@ -40,7 +35,9 @@ class Profile extends Component
 
         $this->validate();
 
-        $this->editing->password = Hash::make($this->newPassword);
+        if (!empty($this->newPassword)) {
+            $this->editing->password = Hash::make($this->newPassword);
+        }
 
         $this->editing->save();
 
