@@ -2,98 +2,45 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
-use Carbon\Carbon;
-use App\Models\Asset;
+use App\Models\Category;
+use App\Models\Emprunt;
+use App\Models\Materiel;
 use App\Models\User;
-use App\Models\Location;
-use App\Models\DistributionGroup;
-use App\Models\DistributionGroupUser;
-use App\Models\EquipmentIssue;
-use App\Models\Role;
-use App\Models\Loan;
-use App\Models\Setup;
-use App\Models\Incident;
+use Carbon\Carbon;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     *
-     * @return void
-     */
-    public function run()
+    public function run(): void
     {
-        //Make admin user
-        $userAdmin = User::factory()->count(1)->withPasswordSet()->create()->first();
-        Role::factory()->count(1)->withUser($userAdmin)->create();
+        $admin = User::factory()->admin()->create();
 
-        User::factory()->count(100)->create();
-        Asset::factory()->count(100)->create();
-        Location::factory()->count(6)->create();
-        EquipmentIssue::factory()->count(6)->create();
-        DistributionGroup::factory()->count(6)->create();
+        $employees = User::factory()->count(10)->employee()->create();
 
-        $distributionGroups = DistributionGroup::all();
-        $users = User::all();
-        $locations = Location::all()->all();
+        $categories = Category::factory()->count(5)->create();
 
-        /**
-         * Each user will have two loans, the first is a real loan, the second
-         * is associated with a setup, with a random location.
-         */
-        foreach($users as $index => $user){
-            Role::factory()
-                ->count(1)
-                ->withUser($user)
-                ->create();
+        $materiels = Materiel::factory()->count(30)->create([
+            'quantite_disponible' => 1,
+        ]);
 
-            $loan = Loan::factory()
-                ->count(1)
-                ->withUser($user)
-                ->withCreator($userAdmin)
-                ->withStartDateTime(Carbon::now()->add($index, 'hour'))
-                ->withEndDateTime(Carbon::now()->add($index + 1, 'hour'))
-                ->create()
-                ->first();
-            $loan->assets()->attach(Asset::skip($index)->first());
+        foreach ($employees as $index => $employee) {
+            $materiel = $materiels->random();
+            $dateEmprunt = Carbon::now()->subDays($index + 1);
 
-            $setupLoan = Loan::factory()
-                ->count(1)
-                ->withUser($user)
-                ->withCreator($userAdmin)
-                ->withStatusId(3)
-                ->withStartDateTime(Carbon::now()->add($index, 'hour'))
-                ->withEndDateTime(Carbon::now()->add($index + 1, 'hour'))
-                ->create()
-                ->first();
-            $setupLoan->assets()->attach(Asset::skip($index)->first());
-            Setup::factory()
-                ->count(1)
-                ->withLoan($setupLoan)
-                ->withLocation($locations[array_rand($locations)])
-                ->create();
+            Emprunt::factory()->create([
+                'user_id' => $employee->id,
+                'materiel_id' => $materiel->id,
+                'date_emprunt' => $dateEmprunt->toDateString(),
+                'date_prevue_retour' => $dateEmprunt->copy()->addDays(7)->toDateString(),
+                'date_effective_retour' => $index % 2 === 0 ? $dateEmprunt->copy()->addDays(5)->toDateString() : null,
+                'statut' => $index % 2 === 0 ? 'retourne' : 'en_cours',
+            ]);
         }
 
-        foreach ($distributionGroups as $index => $distributionGroup) {
-            $numUsers = rand(2, 3);
-
-            $usersToAssign = $users->random($numUsers);
-            foreach ($usersToAssign as $user) {
-                DistributionGroupUser::factory()->create([
-                    'distribution_group_id' => $distributionGroup->id,
-                    'user_id' => $user->id,
-                ]);
-            }
-            
-            $incident = Incident::factory()
-                ->withLocation($locations[array_rand($locations)])
-                ->withDistributionGroup($distributionGroup)
-                ->withCreator($userAdmin)
-                ->create()
-                ->first();
-            $incident->issues()->attach(EquipmentIssue::skip($index)->first());
-        }
-
+        Emprunt::factory()->count(3)->create([
+            'user_id' => $admin->id,
+            'statut' => 'en_cours',
+        ]);
     }
 }

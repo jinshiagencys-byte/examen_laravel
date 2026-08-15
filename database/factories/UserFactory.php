@@ -1,53 +1,42 @@
 <?php
+
 namespace Database\Factories;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Support\Facades\Hash;
 use App\Models\User;
-use App\Models\Role;
-use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Hash;
 
 class UserFactory extends Factory
 {
+    protected $model = User::class;
 
-    protected $model = \App\Models\User::class;
-
-    /**
-     * Define the model's default state.
-     *
-     * @return array
-     */
     public function definition()
     {
         return [
-            'forename' => $this->faker->unique()->firstName(),
-            'surname' => $this->faker->unique()->lastName(),
-            'email' => $this->faker->unique()->email(),
-            'role_id' => 0,
+            'nom' => $this->faker->name(),
+            'email' => $this->faker->unique()->safeEmail(),
+            'password' => Hash::make('password'),
+            'role' => $this->faker->randomElement(['administrateur', 'employe']),
+            'statut' => 'active',
         ];
     }
 
-    public function withSuperAdmin()
+    public function admin()
     {
         return $this->state([
-            'forename' => 'Super',
-            'surname' => 'Admin',
-            'email' => "admin@admin123.com",
-            'role_id' => 1,
-            'password' => Hash::make('1234'),
+            'nom' => 'Administrateur',
+            'email' => 'admin@examen.test',
+            'password' => Hash::make('admin123'),
+            'role' => 'administrateur',
+            'statut' => 'active',
         ]);
     }
 
-    public function withPasswordSet()
+    public function employee()
     {
         return $this->state([
-            'forename' => 'Super',
-            'surname' => 'Admin',
-            'email' => "admin@admin123.com",
-            'role_id' => 1,
-            'password' => Hash::make('1234'),
-            'password_set' => 1,
+            'role' => 'employe',
+            'statut' => 'active',
         ]);
     }
 }
