@@ -1,0 +1,52 @@
+/* Set disabled options in dropdowns to red */
+.select2-container--bootstrap-5 .select2-dropdown .select2-results__options .select2-results__option.select2-results__option--disabled, .select2-container--bootstrap-5 .select2-dropdown .select2-results__options .select2-results__option[aria-disabled=true]
+{
+    color:red;
+}
+
+/* Font Awesome icon modifications */
+.fa-trash-alt {
+    color: red;
+}
+
+.fa-circle-check {
+    color: green;
+}
+
+.truncate {
+    display: -webkit-box;
+    max-width: 100%;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.line-through {
+    text-decoration: line-through;
+}
+
+.btn-warning:not(:disabled):not(.disabled).btn-active {
+    color: #1f2d3d;
+    background-color: #d39e00;
+    border-color: #c69500;
+    font-weight: bold;
+}
+
+.btn-success:not(:disabled):not(.disabled).btn-active {
+    color: #fff;
+    background-color: #1e7e34;
+    border-color: #1c7430;
+    font-weight: bold;
+}
+
+.btn-close {
+    box-sizing: content-box;
+    width: 1em;
+    height: 1em;
+    padding: .25em;
+    color: #000;
+    background: transparent url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23000'%3E%3Cpath d='M.293.293a1 1 0 0 1 1.414 0L8 6.586 14.293.293a1 1 0 1 1 1.414 1.414L9.414 8l6.293 6.293a1 1 0 0 1-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 0 1-1.414-1.414L6.586 8 .293 1.707a1 1 0 0 1 0-1.414z'/%3E%3C/svg%3E") 50%/1em auto no-repeat;
+    border: 0;
+    border-radius: .375rem;
+    opacity: .5;
+}

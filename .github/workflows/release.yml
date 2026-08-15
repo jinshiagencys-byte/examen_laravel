@@ -1,0 +1,73 @@
+name: Release
+on:
+  push:
+    tags:
+      - 'V*.*'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v1
+
+      # Install Node.js and npm
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'npm'
+
+      - name: Install Node dependencies
+        run: |
+          sudo apt update && sudo apt install build-essential -y && npm ci --force
+
+      - name: Generate JavaScript
+        run: |
+          npm run prod
+          
+      - name: Run Composer
+        run: |
+          composer install --optimize-autoloader --no-dev
+
+      # Read the contents of the changelog file
+      - name: Read changelog
+        id: changelog
+        run: echo ::set-output name=contents::$(cat storage/changelog.txt)
+        
+      - name: Rename env file
+        run: mv .env.template .env
+        
+      - name: Remove Files and Folders
+        run: |
+          rm -rf ./.git 
+          rm -rf ./.github
+          rm -rf ./node_modules
+          rm -rf ./resources/js
+          rm -rf ./resources/css
+          rm -f ./.env.ci
+          rm -f ./.gitattributes
+          rm -f ./.eslintrc.json
+          rm -f ./.editorconfig
+          rm -f ./.styleci.yml
+          rm -f ./phpunit.xml
+          rm -f ./package-lock.json
+          rm -f ./package.json
+          rm -f ./webpack.mix.js
+          find . -type f -name '.gitignore' -print0 | xargs -0 rm -f
+        
+      - name: Zip Folder
+        run: zip -r ${{ github.event.repository.name }}.zip .
+
+      # Create the release on GitHub
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          draft: false
+          prerelease: true
+          files: ${{ github.event.repository.name }}.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        if: startsWith(github.ref, 'refs/tags/')
