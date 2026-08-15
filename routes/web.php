@@ -54,6 +54,7 @@ Route::middleware(['guest', 'canInstall'])->prefix('install')->namespace('Instal
 /**
  * App Routes
  */
+// Routes protégées (auth + mot de passe défini)
 Route::middleware(['auth', 'checkpassword'])->group(function () {
     //Loans
     Route::resource('/', LoanController::class)->except(['store', 'update', 'destroy', 'edit', 'create']);
@@ -72,18 +73,21 @@ Route::middleware(['auth', 'checkpassword'])->group(function () {
     Route::get('settings', [AppSettingsController::class, 'index'])->name('settings');
 });
 
+// Route register : accessible uniquement si connecté mais sans mot de passe défini
+Route::middleware('auth')->group(function () {
+    Route::get('register', [RegisterController::class, 'index'])->name('register');
+});
+
 /**
- * Authentication
+ * Authentication (invités uniquement)
  */
 Route::middleware('guest')->group(function () {
-    //Login
-    Route::get('/', [AuthController::class, 'login_page']);
     Route::get('login', [AuthController::class, 'login_page'])->name('login');
     Route::post('login', [AuthController::class, 'login']);
 });
 
 Route::middleware('auth')->group(function () {
-    Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+    Route::post('logout', [AuthController::class, 'logout'])->name('auth.logout');
 });
 
 /**
